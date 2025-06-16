@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - DATABASE_URL=postgresql://chatgpt_user:chatgpt_pass@db:5432/chatgpt_db
+      - SESSION_SECRET=${SESSION_SECRET:-dev-secret-key}
+    depends_on:
+      - db
+    volumes:
+      - ./token.json:/app/token.json:rw
+    restart: unless-stopped
+    networks:
+      - chatgpt-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=chatgpt_db
+      - POSTGRES_USER=chatgpt_user
+      - POSTGRES_PASSWORD=chatgpt_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - chatgpt-network
+
+volumes:
+  postgres_data:
+
+networks:
+  chatgpt-network:
+    driver: bridge

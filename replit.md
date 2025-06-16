@@ -85,20 +85,20 @@ The application follows a traditional web application architecture with the foll
 ## External Dependencies
 
 ### Required Environment Variables
-- `OPENAI_API_KEY`: OpenAI API authentication
-- `GOOGLE_CLIENT_ID`: Google OAuth2 client credentials
-- `GOOGLE_CLIENT_SECRET`: Google OAuth2 client credentials
+- `GOOGLE_API_KEY`: Google Gemini API authentication
+- `GOOGLE_CLIENT_ID`: Google OAuth2 client credentials (optional for Docs integration)
+- `GOOGLE_CLIENT_SECRET`: Google OAuth2 client credentials (optional for Docs integration)
 - `DATABASE_URL`: Database connection string (optional, defaults to SQLite)
 - `SESSION_SECRET`: Flask session encryption key (optional, has dev default)
 
 ### Third-Party Services
-- **OpenAI API**: GPT-4o model for chat responses
-- **Google Docs API**: Document content retrieval with read-only access
-- **Google OAuth2**: Authentication for Google API access
+- **Google Gemini API**: Gemini-1.5-flash model for chat responses
+- **Google Docs API**: Document content retrieval with read-only access (optional)
+- **Google OAuth2**: Authentication for Google API access (optional)
 
 ### Python Dependencies
 - Flask ecosystem (Flask, Flask-SQLAlchemy, Flask-CORS)
-- OpenAI Python client
+- Google Generative AI Python client
 - Google API client libraries
 - Gunicorn for production serving
 - PostgreSQL adapter (psycopg2-binary)
@@ -119,7 +119,9 @@ The deployment uses a parallel workflow system with automatic application startu
 
 ```
 Changelog:
-- June 16, 2025. Initial setup
+- June 16, 2025. Initial setup with OpenAI integration
+- June 16, 2025. Migrated from OpenAI GPT-4o to Google Gemini 1.5-flash
+- June 16, 2025. Application successfully deployed with Gemini AI integration
 ```
 
 ## User Preferences
