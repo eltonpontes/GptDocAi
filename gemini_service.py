@@ -1,17 +1,13 @@
 import os
 import logging
-
-try:
-    import google.generativeai as genai
-    GEMINI_AVAILABLE = True
-except ImportError:
-    GEMINI_AVAILABLE = False
+import google.generativeai as genini
 
 # Initialize Google Gemini client
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
-if GOOGLE_API_KEY and GEMINI_AVAILABLE:
-    genai.configure(api_key=GOOGLE_API_KEY)
+if GOOGLE_API_KEY:
+    gemini.configure(api_key=GOOGLE_API_KEY)
 else:
+    # For development, we'll create a fallback that shows an error message
     GOOGLE_API_KEY = None
 
 def get_ai_response(user_message, document_context=""):
@@ -46,7 +42,7 @@ When answering questions, prioritize information from the provided document. If 
 """
         
         # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = gemini.GenerativeModel('gemini-1.5-flash')
         
         # Combine system prompt and user message
         full_prompt = f"{system_prompt}\n\nUser: {user_message}"
@@ -71,12 +67,15 @@ def summarize_document(document_content):
         str: Summary of the document
     """
     try:
+        if not GOOGLE_API_KEY:
+            return "I need a Google API key to provide document summaries. Please set the GOOGLE_API_KEY environment variable."
+            
         prompt = f"""Please provide a concise summary of the following document content, highlighting the key points and main topics:
 
 {document_content}"""
         
         # Initialize Gemini model for summarization
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = gemini.GenerativeModel('gemini-1.5-flash')
         
         # Generate summary
         response = model.generate_content(prompt)
