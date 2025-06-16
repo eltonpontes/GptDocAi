@@ -16,8 +16,20 @@ def chat():
     """Handle chat messages and return AI responses"""
     try:
         data = request.get_json()
-        user_message = data.get('message', '').strip()
-        document_id = data.get('document_id', '').strip()
+        if not data:
+            return jsonify({'error': 'Invalid JSON data'}), 400
+            
+        user_message = data.get('message', '')
+        document_id = data.get('document_id', '')
+        
+        # Handle None values
+        if user_message is None:
+            user_message = ''
+        if document_id is None:
+            document_id = ''
+            
+        user_message = user_message.strip()
+        document_id = document_id.strip()
         
         if not user_message:
             return jsonify({'error': 'Message is required'}), 400
