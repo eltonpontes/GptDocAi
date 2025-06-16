@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Clone - AI Assistant</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar-header">
+                    <h5><i class="fas fa-robot me-2"></i>AI Assistant</h5>
+                </div>
+                
+                <div class="sidebar-content">
+                    <!-- New Chat Button -->
+                    <button class="btn btn-primary w-100 mb-3" id="newChatBtn">
+                        <i class="fas fa-plus me-2"></i>New Chat
+                    </button>
+                    
+                    <!-- Document Management -->
+                    <div class="document-section">
+                        <h6 class="text-muted mb-2">
+                            <i class="fas fa-file-alt me-2"></i>Knowledge Base
+                        </h6>
+                        
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control form-control-sm" 
+                                   id="documentInput" placeholder="Google Docs ID or URL">
+                            <button class="btn btn-outline-secondary btn-sm" id="addDocumentBtn">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div id="documentsList" class="documents-list">
+                            <!-- Documents will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Chat History -->
+                    <div class="chat-history-section mt-4">
+                        <h6 class="text-muted mb-2">
+                            <i class="fas fa-history me-2"></i>Recent Chats
+                        </h6>
+                        <div id="chatHistory">
+                            <!-- Chat history will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-footer">
+                    <button class="btn btn-outline-danger btn-sm w-100" id="clearHistoryBtn">
+                        <i class="fas fa-trash me-2"></i>Clear History
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Main Chat Area -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="chat-container">
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">
+                                <i class="fas fa-comments me-2"></i>Chat with AI Assistant
+                            </h4>
+                            <div class="document-indicator" id="documentIndicator" style="display: none;">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-file-alt me-1"></i>
+                                    Document Connected
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Welcome message -->
+                        <div class="message ai-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-text">
+                                    Hello! I'm your AI assistant. I can help answer questions and have conversations with you. 
+                                    You can also connect Google Docs to me as a knowledge base for more specific information.
+                                </div>
+                                <div class="message-time">Just now</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Typing Indicator -->
+                    <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                        <div class="message ai-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="typing-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Input -->
+                    <div class="chat-input">
+                        <div class="input-group">
+                            <textarea class="form-control" id="messageInput" 
+                                    placeholder="Type your message here..." rows="1"></textarea>
+                            <button class="btn btn-primary" id="sendBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 mb-0">Processing...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle text-danger me-2"></i>Error
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage">An error occurred. Please try again.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Axios for API calls -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
