@@ -5,12 +5,10 @@ services:
     build: .
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
-      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
       - DATABASE_URL=postgresql://chatgpt_user:chatgpt_pass@db:5432/chatgpt_db
-      - SESSION_SECRET=${SESSION_SECRET:-dev-secret-key}
     depends_on:
       - db
     volumes:

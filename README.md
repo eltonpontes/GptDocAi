@@ -41,20 +41,28 @@ pip install uv
 uv sync
 ```
 
-3. **Set environment variables**
+3. **Configure environment variables**
 ```bash
-export GOOGLE_API_KEY="your_google_api_key"
-# Optional for Google Docs integration:
-# export GOOGLE_CLIENT_ID="your_client_id"
-# export GOOGLE_CLIENT_SECRET="your_client_secret"
+# Copy the example environment file
+cp .env.example .env
+
+# Edit .env file with your API keys
+nano .env  # or use your preferred editor
 ```
 
-4. **Run the application**
+4. **Set up your API keys in .env file:**
+```bash
+GOOGLE_API_KEY=your_actual_google_api_key
+GOOGLE_CLIENT_ID=your_google_client_id (optional)
+GOOGLE_CLIENT_SECRET=your_google_client_secret (optional)
+```
+
+5. **Run the application**
 ```bash
 python main.py
 ```
 
-5. **Open your browser**
+6. **Open your browser**
 Navigate to `http://localhost:5000`
 
 ### Docker Deployment
@@ -110,6 +118,64 @@ Open `http://localhost:5000` in your browser
 3. Enable Google Docs API
 4. Create OAuth 2.0 credentials
 5. Add your domain to authorized origins
+
+## Como Integrar Documentos do Google Docs
+
+### Passo 1: Preparar seu Documento do Google
+
+1. **Abra o Google Docs** e crie ou selecione o documento que deseja usar
+2. **Configure as permissões de compartilhamento:**
+   - Clique em "Compartilhar" no canto superior direito
+   - Em "Acesso geral", selecione "Qualquer pessoa com o link"
+   - Defina como "Leitor" (somente leitura é suficiente)
+   - Clique em "Copiar link"
+
+### Passo 2: Obter o ID do Documento
+
+O link do Google Docs tem o formato:
+```
+https://docs.google.com/document/d/DOCUMENT_ID_AQUI/edit
+```
+
+**Exemplo:**
+- Link: `https://docs.google.com/document/d/1ABC123xyz789DEF456/edit`
+- ID do documento: `1ABC123xyz789DEF456`
+
+### Passo 3: Adicionar o Documento na Aplicação
+
+1. **Execute a aplicação** (`python main.py`)
+2. **Abra no navegador** `http://localhost:5000`
+3. **Na barra lateral esquerda**, encontre a seção "Knowledge Base"
+4. **Cole o ID do documento** ou o link completo no campo de entrada
+5. **Clique no botão "+"** para adicionar o documento
+
+### Passo 4: Usar o Documento nas Conversas
+
+1. **Clique no documento** na lista da barra lateral para selecioná-lo
+2. **Quando selecionado**, aparecerá um indicador verde "Document Connected"
+3. **Faça perguntas sobre o conteúdo** do documento no chat
+4. **A IA usará o documento** como fonte principal de informação
+
+### Exemplos de Uso
+
+**Documento sobre "Manual de Vendas":**
+- Pergunta: "Quais são as etapas do processo de vendas?"
+- A IA responderá baseada no conteúdo do documento
+
+**Documento sobre "Políticas da Empresa":**
+- Pergunta: "Qual é a política de férias?"
+- A IA consultará o documento para fornecer a resposta
+
+### Solução de Problemas
+
+**Erro "Document not found":**
+- Verifique se o documento está compartilhado publicamente
+- Confirme se o ID do documento está correto
+- Teste o link no navegador para garantir acesso
+
+**Erro de permissão:**
+- Configure o Google OAuth (opcional, mas recomendado para documentos privados)
+- Adicione as credenciais GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET no arquivo .env
 
 ## Architecture
 

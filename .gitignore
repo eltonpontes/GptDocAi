@@ -60,6 +60,9 @@ instance/
 .env.test.local
 .env.production.local
 
+# Keep example env file for reference
+!.env.example
+
 # Google OAuth token (contains sensitive data)
 token.json
 credentials.json

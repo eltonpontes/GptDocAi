@@ -122,6 +122,9 @@ Changelog:
 - June 16, 2025. Initial setup with OpenAI integration
 - June 16, 2025. Migrated from OpenAI GPT-4o to Google Gemini 1.5-flash
 - June 16, 2025. Application successfully deployed with Gemini AI integration
+- June 17, 2025. Added .env configuration file and comprehensive Google Docs integration guide
+- June 17, 2025. Created Portuguese documentation for Docker deployment
+- June 17, 2025. Enhanced README with step-by-step Google Docs setup instructions
 ```
 
 ## User Preferences
