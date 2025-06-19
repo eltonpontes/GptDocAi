@@ -192,7 +192,7 @@ https://docs.google.com/document/d/DOCUMENT_ID_AQUI/edit
 ├── main.py             # Application entry point
 ├── routes.py           # API routes and handlers
 ├── models.py           # Database models
-├── openai_service.py   # AI service integration
+├── agent_service.py    # AI service integration
 ├── google_docs_service.py # Google Docs integration
 ├── templates/          # HTML templates
 ├── static/            # CSS, JS, and assets

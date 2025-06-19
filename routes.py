@@ -2,7 +2,7 @@ import logging
 from flask import render_template, request, jsonify, session
 from app import app, db
 from models import ChatMessage, GoogleDocument
-from openai_service import get_ai_response
+from agent_service import get_ai_response
 from google_docs_service import get_document_content, get_document_info
 import uuid
 

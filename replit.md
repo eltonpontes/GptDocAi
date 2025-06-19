@@ -29,8 +29,8 @@ The application follows a traditional web application architecture with the foll
    - `ChatMessage`: Stores conversation history with timestamps and session tracking
    - `GoogleDocument`: Manages cached Google Docs metadata and content
 
-3. **OpenAI Service (openai_service.py)**
-   - GPT-4o model integration for chat responses
+3. **Agent Service (agent_service.py)**
+   - Google Gemini AI integration for chat responses
    - Context-aware responses using Google Docs content
    - Configurable system prompts for document-enhanced conversations
 
@@ -85,16 +85,16 @@ The application follows a traditional web application architecture with the foll
 ## External Dependencies
 
 ### Required Environment Variables
-- `GOOGLE_API_KEY`: Google Gemini API authentication
-- `GOOGLE_CLIENT_ID`: Google OAuth2 client credentials (optional for Docs integration)
-- `GOOGLE_CLIENT_SECRET`: Google OAuth2 client credentials (optional for Docs integration)
-- `DATABASE_URL`: Database connection string (optional, defaults to SQLite)
-- `SESSION_SECRET`: Flask session encryption key (optional, has dev default)
+- `GOOGLE_API_KEY`: Google Gemini API authentication (obrigatória)
+- `GOOGLE_CLIENT_ID`: Google OAuth2 client credentials (opcional para integração com Docs)
+- `GOOGLE_CLIENT_SECRET`: Google OAuth2 client credentials (opcional para integração com Docs)
+- `DATABASE_URL`: Database connection string (opcional, padrão SQLite)
+- `SESSION_SECRET`: Flask session encryption key (opcional, tem padrão para desenvolvimento)
 
 ### Third-Party Services
-- **Google Gemini API**: Gemini-1.5-flash model for chat responses
-- **Google Docs API**: Document content retrieval with read-only access (optional)
-- **Google OAuth2**: Authentication for Google API access (optional)
+- **Google Gemini API**: Modelo Gemini-1.5-flash via REST API para respostas de chat
+- **Google Docs API**: Extração de conteúdo de documentos com acesso somente leitura (opcional)
+- **Google OAuth2**: Autenticação para acesso às APIs do Google (opcional)
 
 ### Python Dependencies
 - Flask ecosystem (Flask, Flask-SQLAlchemy, Flask-CORS)
@@ -125,6 +125,9 @@ Changelog:
 - June 17, 2025. Added .env configuration file and comprehensive Google Docs integration guide
 - June 17, 2025. Created Portuguese documentation for Docker deployment
 - June 17, 2025. Enhanced README with step-by-step Google Docs setup instructions
+- June 19, 2025. Fixed Google Gemini integration using REST API instead of Python client library
+- June 19, 2025. Renamed openai_service.py to agent_service.py and updated all references
+- June 19, 2025. Created comprehensive Google Docs API integration documentation
 ```
 
 ## User Preferences
